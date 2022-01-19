@@ -34,7 +34,7 @@ find_package(yaml_cpp_vendor REQUIRED)
 
 # Geographiclib installs FindGeographicLib.cmake to this non-standard location
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/usr/share/cmake/geographiclib/")
-find_package(GeographicLib REQUIRED COMPONENTS STATIC)
+find_package(GeographicLib REQUIRED)
 
 set(library_name rl_lib)
 
@@ -71,6 +71,8 @@ add_library(
   src/ros_filter.cpp
   src/ros_filter_utilities.cpp
   src/ros_robot_localization_listener.cpp)
+set_target_properties(${library_name} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+target_compile_definitions(${library_name} PUBLIC _USE_MATH_DEFINES)
 
 rosidl_target_interfaces(${library_name}
   ${PROJECT_NAME} "rosidl_typesupport_cpp")
